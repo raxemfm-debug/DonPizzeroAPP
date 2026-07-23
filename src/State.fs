@@ -89,13 +89,13 @@ let nivel (puntos: int) =
     else "Sobrino Nuevo 👋"
 
 // ── Persistencia local (demo hasta la FASE 2) ────────────────
-let private leerInt (clave: string) =
+let private leerInt (clave: string) (defecto: int) =
     let v = Browser.WebStorage.localStorage.getItem clave
-    if isNull v then 0
+    if isNull v then defecto
     else
         match System.Int32.TryParse v with
         | true, n -> n
-        | _ -> 0
+        | _ -> defecto
 
 let private leerStr (clave: string) =
     let v = Browser.WebStorage.localStorage.getItem clave
@@ -167,8 +167,8 @@ let init () : Model * Cmd<Msg> =
       LocalEntrega = leerStr "dp-local"
       Carrito = []
       SiguienteLineaId = 1
-      Puntos = leerInt "dp-puntos"
-      Sellos = leerInt "dp-sellos" },
+      Puntos = leerInt "dp-puntos" 240   // default: 240 pts → Sobrino Fiel 🍕
+      Sellos = leerInt "dp-sellos" 8 },  // default: 8 sellos → indicador 8/10
     Cmd.none
 
 // ── Update ───────────────────────────────────────────────────
