@@ -54,6 +54,7 @@ type Msg =
     | AbrirSelectorLocal of ModoSelector
     | CerrarSelectorLocal
     | ElegirLocal of Local
+    | ReservarMesa of Local * string
     | EnviarPorWhatsApp
 
 // ── Helpers ──────────────────────────────────────────────────
@@ -142,10 +143,19 @@ let urlWhatsApp (localEntrega: string option) (lineas: CartLine list) =
         Data.negocio.WhatsApp
         (JS.encodeURIComponent (textoPedido localEntrega lineas))
 
-let urlReserva (local: string) =
+let textoReserva (local: string) (opcion: string) =
+    [ "Hola 👋, me gustaría hacer una reserva de mesa en Don Pizzero:"
+      ""
+      sprintf "📍 *Local:* %s" local
+      sprintf "👥 *Reserva:* %s" opcion
+      ""
+      "¡Muchas gracias!" ]
+    |> String.concat "\n"
+
+let urlReserva (local: string) (opcion: string) =
     sprintf "https://wa.me/%s?text=%s"
         Data.negocio.WhatsApp
-        (JS.encodeURIComponent (sprintf "Hola 👋, quiero reservar una mesa en Don Pizzero — %s" local))
+        (JS.encodeURIComponent (textoReserva local opcion))
 
 // ── Init ─────────────────────────────────────────────────────
 let init () : Model * Cmd<Msg> =
@@ -238,7 +248,7 @@ let update (msg: Msg) (model: Model) : Model * Cmd<Msg> =
         match model.Selector with
         | Some ParaReserva ->
             let efecto (_: Dispatch<Msg>) =
-                window.``open`` (urlReserva local.Nombre, "_blank") |> ignore
+                window.``open`` (urlReserva local.Nombre "2 personas", "_blank") |> ignore
             { model with Selector = None }, Cmd.ofEffect efecto
         | Some ParaEntrega ->
             let efecto (_: Dispatch<Msg>) =
@@ -246,6 +256,11 @@ let update (msg: Msg) (model: Model) : Model * Cmd<Msg> =
             { model with LocalEntrega = Some local.Nombre; Selector = None },
             Cmd.ofEffect efecto
         | None -> model, Cmd.none
+
+    | ReservarMesa (local, personas) ->
+        let efecto (_: Dispatch<Msg>) =
+            window.``open`` (urlReserva local.Nombre personas, "_blank") |> ignore
+        { model with Selector = None }, Cmd.ofEffect efecto
 
     | EnviarPorWhatsApp ->
         if List.isEmpty model.Carrito then
