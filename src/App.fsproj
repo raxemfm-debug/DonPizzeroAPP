@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>DonPizzero</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Orden de compilación F#: las dependencias van primero -->
+  <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Data.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="Views/Header.fs" />
+    <Compile Include="Views/CategoryFilter.fs" />
+    <Compile Include="Views/MenuList.fs" />
+    <Compile Include="Views/ProductModal.fs" />
+    <Compile Include="Views/CartView.fs" />
+    <Compile Include="Views/LocalSelector.fs" />
+    <Compile Include="Views/TabBar.fs" />
+    <Compile Include="Views/HomeView.fs" />
+    <Compile Include="Views/PremiosView.fs" />
+    <Compile Include="Views/PerfilView.fs" />
+    <Compile Include="App.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fable.Browser.Dom" Version="2.16.0" />
+    <PackageReference Include="Fable.Elmish" Version="4.2.0" />
+    <PackageReference Include="Fable.Elmish.React" Version="4.0.0" />
+    <PackageReference Include="Fable.Elmish.HMR" Version="7.0.0" />
+    <PackageReference Include="Feliz" Version="2.8.0" />
+  </ItemGroup>
+
+</Project>

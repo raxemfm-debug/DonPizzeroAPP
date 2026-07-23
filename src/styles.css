@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* Paleta cálida/italiana de Don Pizzero Ayacucho.
+   Tailwind v4 genera utilidades desde estos tokens:
+   bg-crema, text-rosso, border-dorado, font-display, etc. */
+@theme {
+  --color-rosso: #b71c1c;
+  --color-rosso-dark: #8e1414;
+  --color-verde: #2e7d32;
+  --color-verde-dark: #1b5e20;
+  --color-crema: #fff6e9;
+  --color-dorado: #e8a426;
+  --color-carbon: #2b2118;
+
+  --font-display: "Alfa Slab One", serif;
+  --font-body: "Nunito", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-crema);
+  color: var(--color-carbon);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
